@@ -10,7 +10,17 @@ class PCPreprocessing:
             return values_list
 
     @staticmethod
-    def linking_axis(axis_original, axis_simp):
+    def aling_axes(axis_original, axis_simp, axes_orders):
+        if axes_orders:
+            return{
+                "x_axis": PCPreprocessing.checking_negatives(axis_original[axes_orders['original'][0]]),
+                "y_axis": PCPreprocessing.checking_negatives(axis_original[axes_orders['original'][1]]),
+                "z_axis": PCPreprocessing.checking_negatives(axis_original[axes_orders['original'][2]]),
+            },{
+                "x_axis": PCPreprocessing.checking_negatives(axis_simp[axes_orders['simplified'][0]]),
+                "y_axis": PCPreprocessing.checking_negatives(axis_simp[axes_orders['simplified'][1]]),
+                "z_axis": PCPreprocessing.checking_negatives(axis_simp[axes_orders['simplified'][2]])
+            }
         original_axis_ranges = []
         simp_axis_ranges = []
         for i in range(len(axis_original)):
@@ -115,11 +125,13 @@ class PCPreprocessing:
 
 
     @staticmethod
-    def scalling_point_clouds(vertex_orig_cloud, vertex_simp_cloud):
-        # Linking axis of both clouds
-        axis_original, axis_simp = PCPreprocessing.linking_axis(
-            PCPreprocessing.taking_coordinate_values(vertex_orig_cloud),
-            PCPreprocessing.taking_coordinate_values(vertex_simp_cloud))
+    def scalling_point_clouds(vertex_orig_cloud, vertex_simp_cloud, aling_axes = True, axes_orders = False):
+        if aling_axes:
+            # Alignment axis of both clouds
+            axis_original, axis_simp = PCPreprocessing.aling_axes(
+                PCPreprocessing.taking_coordinate_values(vertex_orig_cloud),
+                PCPreprocessing.taking_coordinate_values(vertex_simp_cloud), 
+                axes_orders)
         
         # Scalling point clouds
         vertex_original_scalled, vertex_simp_scalled = PCPreprocessing.min_max_scalling(axis_original, axis_simp)
