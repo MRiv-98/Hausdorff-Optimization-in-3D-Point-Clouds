@@ -55,6 +55,7 @@ Additionally, the *testing.py* file contains configuration variables that allow 
 
 ## Required Python Libraries
 The entire projet was developed in Python 3.10, using the following external libraries
+- *plyfile*
 - *numpy*
 - *pandas*
 - *matplotlib*
